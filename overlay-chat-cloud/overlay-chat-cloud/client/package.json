@@ -1,0 +1,46 @@
+{
+  "name": "overlay-chat",
+  "version": "2.0.0",
+  "description": "Gaming overlay chat app - always on top!",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win portable",
+    "build:all": "electron-builder --win --mac --linux"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0"
+  },
+  "devDependencies": {
+    "electron": "^27.1.0",
+    "electron-builder": "^24.6.4"
+  },
+  "build": {
+    "appId": "com.overlaychat.app",
+    "productName": "Overlay Chat",
+    "win": {
+      "target": ["portable", "nsis"],
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    },
+    "files": [
+      "**/*",
+      "!assets/icon.*"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/overlay-chat.git"
+  },
+  "keywords": ["chat", "overlay", "gaming", "electron", "discord-alternative"],
+  "author": "Your Name",
+  "license": "MIT"
+}
