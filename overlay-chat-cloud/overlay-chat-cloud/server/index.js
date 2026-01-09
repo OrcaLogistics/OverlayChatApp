@@ -13,7 +13,7 @@ const WebSocket = require('ws');
 
 // Configuration
 const PORT = process.env.PORT || 8080;
-const MAX_USERS_PER_ROOM = 5;
+const MAX_USERS_PER_ROOM = 10;
 
 // Room storage: Map<roomCode, Map<WebSocket, UserData>>
 const rooms = new Map();
