@@ -1,77 +1,69 @@
-# 💬 Overlay Chat
+Overlay Chat
 
 A lightweight, always-on-top chat overlay for gamers. No account needed, no data stored, just simple group chat with your friends.
 
-![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Mac%20%7C%20Linux-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+Features
+- Stays visible over games (borderless windowed mode)
+- Create private rooms, share the 6-character code with friends
+- Pick any display name (great for roleplay!)
+- Choose your own color
+- Prevent accidental dragging
+- Make it as transparent as you want
+- `Ctrl+Shift+O` to hide/show instantly
+- Messages disappear when you leave
 
-<p align="center">
-  <img src="docs/screenshot.png" alt="Overlay Chat Screenshot" width="350">
-</p>
+---------------------------------------------------------------------
 
-## ✨ Features
+Quick Start (Users)
 
-- 🎮 **Always-On-Top** - Stays visible over games (borderless windowed mode)
-- 🔑 **Room Codes** - Create private rooms, share the 6-character code with friends
-- 👤 **Custom Names** - Pick any display name (great for roleplay!)
-- 🎨 **Name Colors** - Choose your own color
-- 🔒 **Lock Position** - Prevent accidental dragging
-- 👻 **Adjustable Opacity** - Make it as transparent as you want
-- ⌨️ **Quick Toggle** - `Ctrl+Shift+O` to hide/show instantly
-- 🚫 **No Data Storage** - Messages disappear when you leave
+Download & Run
 
----
-
-## 🚀 Quick Start (Users)
-
-### Download & Run
-
-1. Download the latest release from [Releases](../../releases)
+1. Download the latest release
 2. Extract and run `Overlay Chat.exe`
 3. Create a room or enter a friend's room code
-4. Chat!
+4. Chat
 
-### Controls
+Controls
 
 | Key/Button | Action |
 |------------|--------|
-| `Ctrl+Shift+O` | Toggle visibility |
-| ⚙️ | Open settings |
+| "Ctrl+Shift+O" | Toggle visibility |
+| ⚙️ | Settings |
 | 📋 | Copy room code |
 | 🚪 | Leave room |
 | 🔓/🔒 | Lock/unlock position |
 
----
+---------------------------------------------------------------------
 
-## 🛠️ Self-Hosting Guide
+Self-Hosting Guide
 
-Want to run your own server? Here's how:
+For the brave and worthy who want to self-host
 
-### Option 1: Deploy to Render (Free, Recommended)
+ Option one: Deploy to Render
 
-1. Fork this repository
+1. Fork this repo
 2. Go to [render.com](https://render.com) and sign up
-3. Click **"New +"** → **"Web Service"**
+3. Click "New +" --> "Web Service"
 4. Connect your GitHub and select your forked repo
 5. Configure:
-   - **Name**: `overlay-chat` (or whatever you want)
-   - **Root Directory**: `server`
-   - **Runtime**: `Node`
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-6. Click **"Create Web Service"**
+   - Name it whatever you want
+   - Root Directory: server
+   - Runtime: Node
+   - Build Command: npm install
+   - Start Command: npm start
+6. Click "Create Web Service"
 7. Wait for deployment (2-3 minutes)
 8. Copy your URL (e.g., `overlay-chat-xxxx.onrender.com`)
 
-### Option 2: Deploy to Railway
+Option Two: Deploy to Railway
 
 1. Go to [railway.app](https://railway.app)
-2. Click **"New Project"** → **"Deploy from GitHub repo"**
+2. Click New Project --> "Deploy from GitHub repo"
 3. Select your forked repo
-4. Set **Root Directory** to `server`
+4. Set Root Directory to "server"
 5. Deploy and copy your URL
 
-### Option 3: Deploy to Fly.io
+Option 3 is Fly.io
 
 ```bash
 cd server
@@ -79,7 +71,7 @@ fly launch
 fly deploy
 ```
 
-### Update the Client
+Update the Client
 
 After deploying, update `client/config.js`:
 
@@ -89,16 +81,15 @@ SERVER_URL: 'wss://your-app-name.onrender.com'
 
 Note: Use `wss://` for HTTPS servers, `ws://` for local/HTTP.
 
----
+---------------------------------------------------------------------
+Building the Client
 
-## 🏗️ Building the Client
-
-### Prerequisites
+Prerequisites
 
 - Node.js 18+
 - npm
 
-### Development
+Development
 
 ```bash
 cd client
@@ -106,7 +97,7 @@ npm install
 npm start
 ```
 
-### Build Executable
+Build Executable
 
 ```bash
 cd client
@@ -118,7 +109,7 @@ Executables will be in `client/dist/`
 
 ---
 
-## 📁 Project Structure
+Project Structure
 
 ```
 overlay-chat/
@@ -128,7 +119,7 @@ overlay-chat/
 │
 ├── client/
 │   ├── package.json
-│   ├── config.js         # ⬅️ Set your server URL here!
+│   ├── config.js         # This is where Server Url is set.
 │   ├── main.js           # Electron main process
 │   ├── preload.js
 │   └── src/
@@ -141,15 +132,15 @@ overlay-chat/
 
 ---
 
-## 🔧 Configuration
+Configuration
 
-### Server Environment Variables
+Server Environment Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PORT` | `8080` | Server port |
 
-### Client Config (`client/config.js`)
+Client Config (`client/config.js`)
 
 ```javascript
 module.exports = {
@@ -159,26 +150,17 @@ module.exports = {
 };
 ```
 
----
+---------------------------------------------------------------------
 
-## 🎮 Game Compatibility
+Game Compatibility
 
-The overlay works with games in **Borderless Windowed** mode. Most games have this option in Display/Video settings.
+Works best with borderless windowed mode.
+Tested on popular games like Roblox, Minecraft, Elden ring, AC6, etc.
+I am yet to find out if the anticheat software flags it. It should not.
 
-### Tested Games
-- League of Legends ✅
-- Valorant ✅
-- Minecraft ✅
-- Among Us ✅
-- Most Unity/Unreal games ✅
+---------------------------------------------------------------------
 
-### Known Issues
-- Exclusive Fullscreen games may hide the overlay
-- Some anti-cheat software may flag overlays (rare)
-
----
-
-## 🤝 Contributing
+Contributing
 
 Contributions are welcome! Feel free to:
 
@@ -186,43 +168,31 @@ Contributions are welcome! Feel free to:
 - Suggest features
 - Submit pull requests
 
----
+---------------------------------------------------------------------
 
-## 📜 License
+License
 
-MIT License - do whatever you want with it!
+MIT License - do whatever you want with it.
 
----
+---------------------------------------------------------------------
+FAQ
 
-## 💡 Ideas for Contributors
-
-- [ ] Sound notifications
-- [ ] Emoji picker
-- [ ] Image sharing
-- [ ] Voice chat integration
-- [ ] Multiple themes
-- [ ] End-to-end encryption
-- [ ] Mobile companion app
-
----
-
-## ❓ FAQ
-
-**Q: Is this free?**
+Q: Is this free?
 A: Yes, completely free and open source.
 
-**Q: Do I need an account?**
+Q: Do I need an account?
 A: No accounts needed. Just pick a name and go.
 
-**Q: Are messages saved?**
+Q: Are messages saved?
 A: No. Messages only exist while the room is active.
 
-**Q: Can I use this commercially?**
+Q: Can I use this commercially?
 A: Yes, MIT license allows commercial use.
 
-**Q: Why not just use Discord?**
-A: Discord's overlay is heavy and requires an account. This is lightweight and instant.
+Q: Why not just use Discord?
+A: Discord's overlay is heavy and requires an account. This is lightweight and far more specialised
 
----
+Q: Did you make this for Roblox following the chat ban?
+A: Noooooo...Why would you say that? Using this app to chat in roblox would be breach of TOS. Do NOT use it for this purpose.
 
-Made with ❤️ for gamers who just want to chat
+---------------------------------------------------------------------
