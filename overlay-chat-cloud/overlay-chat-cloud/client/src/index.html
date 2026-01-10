@@ -4,90 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src ws: wss:;">
-    <title>Overlay Chat</title>
+    <title>Chat</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="app">
-        <!-- Title Bar -->
         <div id="titlebar">
-            <span id="title">💬 Overlay Chat</span>
+            <span id="title">chat</span>
             <div id="titlebar-buttons">
-                <button id="btn-settings" title="Settings">⚙️</button>
-                <button id="btn-minimize" title="Minimize">➖</button>
-                <button id="btn-lock" title="Lock Position">🔓</button>
-                <button id="btn-close" title="Close">✖️</button>
+                <button id="btn-settings" title="Settings">s</button>
+                <button id="btn-minimize" title="Minimize">_</button>
+                <button id="btn-lock" title="Lock">o</button>
+                <button id="btn-close" title="Close">x</button>
             </div>
         </div>
         
-        <!-- Room Panel (Initial Screen) -->
         <div id="room-panel">
             <div class="room-header">
-                <h2>🎮 Welcome!</h2>
-                <p class="subtitle">Create a room or join your friends</p>
+                <h2>Join or Create</h2>
+                <p class="subtitle">Share code with friends</p>
             </div>
             
             <div class="room-actions">
-                <button id="btn-create-room" class="primary-btn large-btn">
-                    ✨ Create New Room
-                </button>
+                <button id="btn-create-room" class="primary-btn">New Room</button>
                 
-                <div class="divider">
-                    <span>or join existing</span>
-                </div>
+                <div class="divider"><span>or</span></div>
                 
                 <div class="input-group">
-                    <label for="room-code-input">Room Code:</label>
-                    <input type="text" id="room-code-input" placeholder="ABCD12" maxlength="6" autocomplete="off">
+                    <label for="room-code-input">Code</label>
+                    <input type="text" id="room-code-input" placeholder="XXXXXX" maxlength="6" autocomplete="off">
                 </div>
-                <button id="btn-join-room" class="secondary-btn">Join Room</button>
+                <button id="btn-join-room" class="secondary-btn">Join</button>
             </div>
             
             <div id="room-status" class="status-message"></div>
         </div>
         
-        <!-- Settings Panel -->
         <div id="settings-panel" class="hidden">
-            <h3>⚙️ Settings</h3>
+            <h3>Settings</h3>
             
             <div class="settings-section">
-                <h4>👤 Your Identity</h4>
+                <h4>Name</h4>
                 <div class="input-group inline">
-                    <input type="text" id="display-name" placeholder="Your name..." maxlength="20">
+                    <input type="text" id="display-name" placeholder="name" maxlength="20">
                     <button id="btn-set-name" class="small-btn">Set</button>
                 </div>
                 <div class="input-group inline">
-                    <label>Color:</label>
-                    <input type="color" id="name-color" value="#00ff88">
+                    <label>Color</label>
+                    <input type="color" id="name-color" value="#888888">
                     <button id="btn-set-color" class="small-btn">Set</button>
                 </div>
             </div>
             
             <div class="settings-section">
-                <h4>🎨 Appearance</h4>
-                <div class="input-group inline">
-                    <label>Opacity:</label>
-                    <input type="range" id="opacity-slider" min="30" max="100" value="90">
-                    <span id="opacity-value">90%</span>
-                </div>
-            </div>
-            
-            <div class="settings-section">
-                <h4>👥 In This Room</h4>
+                <h4>Online</h4>
                 <ul id="user-list">
-                    <li class="no-users">No one else here yet</li>
+                    <li class="no-users">empty</li>
                 </ul>
             </div>
             
-            <button id="btn-close-settings" class="secondary-btn">Close Settings</button>
+            <button id="btn-close-settings" class="secondary-btn">Close</button>
         </div>
         
-        <!-- Chat Panel -->
         <div id="chat-panel" class="hidden">
             <div id="room-info-bar">
-                <span id="current-room-code">Room: ------</span>
-                <button id="btn-copy-code" title="Copy room code">📋</button>
-                <button id="btn-leave-room" title="Leave room">🚪</button>
+                <span id="current-room-code">------</span>
+                <button id="btn-copy-code" title="Copy">c</button>
+                <button id="btn-leave-room" title="Leave">q</button>
             </div>
             
             <div id="messages-container">
@@ -95,7 +78,7 @@
             </div>
             
             <div id="input-container">
-                <input type="text" id="message-input" placeholder="Type a message..." maxlength="500" autocomplete="off">
+                <input type="text" id="message-input" placeholder="message" maxlength="500" autocomplete="off">
                 <button id="btn-send">Send</button>
             </div>
         </div>
