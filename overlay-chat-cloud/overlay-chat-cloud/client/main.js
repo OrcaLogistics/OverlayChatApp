@@ -1,6 +1,6 @@
 /**
- * Overlay Chat - Electron Main Process
- * Cloud Edition with Room Codes
+ * Overlay Chat - Minimal Edition
+ * Compact, unobtrusive design
  */
 
 const { app, BrowserWindow, ipcMain, screen, globalShortcut } = require('electron');
@@ -10,17 +10,23 @@ const config = require('./config');
 let mainWindow = null;
 let isMinimized = false;
 let isLocked = false;
+let isHidden = false;
 
 const WINDOW_CONFIG = {
-    width: 380,
-    height: 550,
-    minWidth: 320,
-    minHeight: 450,
-    maxWidth: 500,
-    maxHeight: 800
+    width: 280,
+    height: 360,
+    minWidth: 240,
+    minHeight: 300,
+    maxWidth: 350,
+    maxHeight: 500
 };
 
 function createWindow() {
+    if (mainWindow !== null) {
+        mainWindow.focus();
+        return;
+    }
+    
     const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
     
     mainWindow = new BrowserWindow({
@@ -30,15 +36,15 @@ function createWindow() {
         minHeight: WINDOW_CONFIG.minHeight,
         maxWidth: WINDOW_CONFIG.maxWidth,
         maxHeight: WINDOW_CONFIG.maxHeight,
-        x: screenWidth - WINDOW_CONFIG.width - 20,
-        y: Math.floor((screenHeight - WINDOW_CONFIG.height) / 2),
+        x: screenWidth - WINDOW_CONFIG.width - 10,
+        y: screenHeight - WINDOW_CONFIG.height - 40,
         
-        // Overlay settings
         alwaysOnTop: true,
         frame: false,
-        transparent: true,
+        transparent: false,
         resizable: true,
         skipTaskbar: false,
+        show: false,
         
         webPreferences: {
             nodeIntegration: false,
@@ -46,28 +52,43 @@ function createWindow() {
             preload: path.join(__dirname, 'preload.js')
         },
         
-        backgroundColor: '#00000000',
-        hasShadow: false
+        backgroundColor: '#1a1a1a'
     });
     
-    mainWindow.setAlwaysOnTop(true, 'screen-saver');
-    mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+    mainWindow.setAlwaysOnTop(true, 'floating');
     mainWindow.loadFile(path.join(__dirname, 'src', 'index.html'));
+    
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.show();
+    });
     
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
     
     mainWindow.on('blur', () => {
-        if (!isMinimized) {
-            mainWindow.setAlwaysOnTop(true, 'screen-saver');
+        if (mainWindow && !isHidden) {
+            mainWindow.setAlwaysOnTop(true, 'floating');
         }
     });
     
-    console.log(`${config.APP_NAME} v${config.VERSION} started!`);
+    console.log(`${config.APP_NAME} v${config.VERSION}`);
 }
 
-// IPC Handlers
+function toggleVisibility() {
+    if (!mainWindow) return;
+    
+    if (isHidden) {
+        mainWindow.show();
+        mainWindow.setAlwaysOnTop(true, 'floating');
+        mainWindow.focus();
+        isHidden = false;
+    } else {
+        mainWindow.hide();
+        isHidden = true;
+    }
+}
+
 ipcMain.handle('get-config', () => {
     return {
         serverUrl: config.SERVER_URL,
@@ -82,7 +103,7 @@ ipcMain.handle('toggle-minimize', () => {
             mainWindow.setSize(WINDOW_CONFIG.width, WINDOW_CONFIG.height);
             isMinimized = false;
         } else {
-            mainWindow.setSize(WINDOW_CONFIG.width, 50);
+            mainWindow.setSize(WINDOW_CONFIG.width, 32);
             isMinimized = true;
         }
         return isMinimized;
@@ -98,37 +119,48 @@ ipcMain.handle('toggle-lock', () => {
     }
 });
 
-ipcMain.handle('set-opacity', (event, opacity) => {
-    if (mainWindow) {
-        mainWindow.setOpacity(opacity);
-    }
-});
+ipcMain.handle('set-opacity', (event, opacity) => {});
 
 ipcMain.handle('close-app', () => {
     app.quit();
 });
 
-// App lifecycle
-app.whenReady().then(() => {
-    createWindow();
-    
-    globalShortcut.register('CommandOrControl+Shift+O', () => {
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+    app.quit();
+} else {
+    app.on('second-instance', () => {
         if (mainWindow) {
-            if (mainWindow.isVisible()) {
-                mainWindow.hide();
-            } else {
+            if (isHidden) {
                 mainWindow.show();
-                mainWindow.setAlwaysOnTop(true, 'screen-saver');
+                isHidden = false;
             }
+            if (mainWindow.isMinimized()) {
+                mainWindow.restore();
+            }
+            mainWindow.focus();
         }
     });
     
-    console.log('Hotkey: Ctrl+Shift+O to toggle visibility');
-});
+    app.whenReady().then(() => {
+        createWindow();
+        
+        const shortcutRegistered = globalShortcut.register('CommandOrControl+Shift+O', toggleVisibility);
+        
+        if (shortcutRegistered) {
+            console.log('Hotkey: Ctrl+Shift+O');
+        }
+    });
+}
 
 app.on('window-all-closed', () => {
     globalShortcut.unregisterAll();
     app.quit();
+});
+
+app.on('will-quit', () => {
+    globalShortcut.unregisterAll();
 });
 
 app.on('activate', () => {
@@ -136,15 +168,3 @@ app.on('activate', () => {
         createWindow();
     }
 });
-
-const gotTheLock = app.requestSingleInstanceLock();
-if (!gotTheLock) {
-    app.quit();
-} else {
-    app.on('second-instance', () => {
-        if (mainWindow) {
-            if (mainWindow.isMinimized()) mainWindow.restore();
-            mainWindow.focus();
-        }
-    });
-}
